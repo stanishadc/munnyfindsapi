@@ -9,7 +9,9 @@ namespace MFAPI.Common
         {
         }
         public DbSet<Category> tblCategory { get; set; }
-        public DbSet<Appointments> tblAppointements { get; set; }
+        public DbSet<Appointments> tblAppointments { get; set; }
+        public DbSet<Customer> tblCustomer { get; set; }
+        public DbSet<Salons> tblSalons { get; set; }
         public DbSet<User> tblUser { get; set; }
     }
 }

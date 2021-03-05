@@ -62,7 +62,7 @@ namespace MFAPI.Controllers
         [Route("Edit/{id}")]
         public async Task<Customer> Edit(int id)
         {
-            return await _context.tblSalons.FindAsync(id);
+            return await _context.tblCustomer.FindAsync(id);
         }
 
         [HttpPut]
@@ -104,15 +104,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var salon = await _context.tblCustomer.FindAsync(id);
-                if (salon == null)
+                var customer = await _context.tblCustomer.FindAsync(id);
+                if (customer == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblCustomer.Remove(Customer);
+                    _context.tblCustomer.Remove(customer);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

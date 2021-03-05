@@ -24,7 +24,7 @@ namespace MFAPI.Controllers
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Appointments>>> Get()
         {
-            return await _context.tblAppointements.ToListAsync();
+            return await _context.tblAppointments.ToListAsync();
         }
 
         [HttpPost]
@@ -63,7 +63,7 @@ namespace MFAPI.Controllers
         [Route("Edit/{id}")]
         public async Task<Appointments> Edit(int id)
         {
-            return await _context.tblAppointements.FindAsync(id);
+            return await _context.tblAppointments.FindAsync(id);
         }
 
         [HttpPut]
@@ -105,7 +105,7 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var Appointements = await _context.tblAppointements.FindAsync(id);
+                var Appointements = await _context.tblAppointments.FindAsync(id);
                 if (Appointements == null)
                 {
                     _objResponse.Status = "No record found";
@@ -113,7 +113,7 @@ namespace MFAPI.Controllers
                 }
                 else
                 {
-                    _context.tblAppointements.Remove(Appointements);
+                    _context.tblAppointments.Remove(Appointements);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
