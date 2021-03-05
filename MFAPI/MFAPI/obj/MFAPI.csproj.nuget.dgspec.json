@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {}
+    "D:\\devi\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {}
   },
   "projects": {
-    "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {
+    "D:\\devi\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
+        "projectUniqueName": "D:\\devi\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
         "projectName": "MFAPI",
-        "projectPath": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
-        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
-        "outputPath": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\obj\\",
+        "projectPath": "D:\\devi\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
+        "packagesPath": "C:\\Users\\Developer 2\\.nuget\\packages\\",
+        "outputPath": "D:\\devi\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Developer 2\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -49,6 +49,10 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[5.0.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
             }
           },
           "imports": [
@@ -69,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
