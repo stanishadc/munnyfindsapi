@@ -13,6 +13,6 @@ namespace MFAPI.Model
         public DateTime UpdatedDate { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public string Categoryurls { get; set; }
+        public string Categoryurl { get; set; }
     }
 }
