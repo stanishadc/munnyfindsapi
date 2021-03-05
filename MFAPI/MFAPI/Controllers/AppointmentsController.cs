@@ -71,8 +71,8 @@ namespace MFAPI.Controllers
             catch (Exception ex)
             {
                 _objResponse.Data = null;
-                _objResponse.Status = ex.Message;
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                _objResponse.Status = ex.ToString();
+                Console.WriteLine("\nMessage ---\n{0}", ex.ToString());
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
@@ -110,8 +110,8 @@ namespace MFAPI.Controllers
             catch (Exception ex)
             {
                 _objResponse.Data = null;
-                _objResponse.Status = ex.Message;
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                _objResponse.Status = ex.ToString();
+                Console.WriteLine("\nMessage ---\n{0}", ex.ToString());
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
@@ -124,15 +124,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var Appointements = await _context.tblAppointments.FindAsync(id);
-                if (Appointements == null)
+                var appointements = await _context.tblAppointments.FindAsync(id);
+                if (appointements == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblAppointments.Remove(Appointements);
+                    _context.tblAppointments.Remove(appointements);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

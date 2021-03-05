@@ -50,8 +50,8 @@ namespace MFAPI.Controllers
             catch (Exception ex)
             {
                 _objResponse.Data = null;
-                _objResponse.Status = ex.Message;
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                _objResponse.Status = ex.ToString();
+                Console.WriteLine("\nMessage ---\n{0}", ex.ToString());
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
@@ -89,8 +89,8 @@ namespace MFAPI.Controllers
             catch (Exception ex)
             {
                 _objResponse.Data = null;
-                _objResponse.Status = ex.Message;
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                _objResponse.Status = ex.ToString();
+                Console.WriteLine("\nMessage ---\n{0}", ex.ToString());
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;

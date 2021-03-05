@@ -35,6 +35,7 @@ namespace MFAPI
 
             });
             services.AddDbContext<SqlDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DevDB")));
+            //services.AddDbContext<SqlDbContext>(option => option.UseInMemoryDatabase("EmpDB"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

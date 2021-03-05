@@ -12,7 +12,11 @@ namespace MFAPI.Common
         public DbSet<Appointments> tblAppointments { get; set; }
         public DbSet<Customer> tblCustomer { get; set; }
         public DbSet<SalonImages> tblSalonImages { get; set; }
+        public DbSet<Treatment> tblTreatment { get; set; }
+        public DbSet<TreatmentPrice> tblTreatmentPrice { get; set; }
+        public DbSet<Transaction> tblTransaction { get; set; }
         public DbSet<Salons> tblSalons { get; set; }
         public DbSet<User> tblUser { get; set; }
+
     }
 }
