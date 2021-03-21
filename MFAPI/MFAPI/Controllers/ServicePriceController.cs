@@ -4,44 +4,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SalonImagesController : ControllerBase
+    public class ServicePriceController : ControllerBase
     {
         private readonly SqlDbContext _context;
-        public SalonImagesController(SqlDbContext context)
+
+        public ServicePriceController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<SalonImages>>> Get()
+        public async Task<ActionResult<IEnumerable<ServicePrice>>> Get()
         {
-            return await _context.tblSalonImages.ToListAsync();
+            return await _context.tblServicePrice.ToListAsync();
         }
-
-        [HttpGet]
-        [Route("GetBySalon/{SalonId}")]
-        public async Task<ActionResult<IEnumerable<SalonImages>>> GetBySalon(int SalonId)
-        {
-            return await _context.tblSalonImages.Where(s => s.SalonId == SalonId).ToListAsync();
-        }
-
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] SalonImages model)
+        public async Task<Response> Insert([FromForm] ServicePrice model)
         {
             Response _objResponse = new Response();
             try
             {
                 if (ModelState.IsValid)
                 {
+                    model.CreatedDate = DateTime.Now;
+                    model.UpdatedDate = DateTime.Now;
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -65,25 +59,27 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<SalonImages> Edit(int id)
+        public async Task<ServicePrice> Edit(int id)
         {
-            return await _context.tblSalonImages.FindAsync(id);
+            return await _context.tblServicePrice.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] SalonImages model)
+        public async Task<Response> Update(int id, [FromForm] ServicePrice model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.SalonImageId)
+                if (id != model.ServicePriceId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
+                    model.UpdatedDate = DateTime.Now;
+                    _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
                     _context.Entry(model).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -107,15 +103,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var salonimages = await _context.tblSalonImages.FindAsync(id);
-                if (salonimages == null)
+                var treatmentprice = await _context.tblServicePrice.FindAsync(id);
+                if (treatmentprice == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblSalonImages.Remove(salonimages);
+                    _context.tblServicePrice.Remove(treatmentprice);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

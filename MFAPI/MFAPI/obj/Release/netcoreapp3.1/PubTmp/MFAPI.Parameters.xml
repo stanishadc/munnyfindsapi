@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="IIS Web Application Name" description="" value="munnyfindsapi" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
   </parameter>
 </parameters>

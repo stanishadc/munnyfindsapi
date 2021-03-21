@@ -8,14 +8,15 @@ namespace MFAPI.Common
         public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
         {
         }
+        public DbSet<BusinessType> tblBusinessType { get; set; }
         public DbSet<Category> tblCategory { get; set; }
-        public DbSet<Appointments> tblAppointments { get; set; }
+        public DbSet<Appointments> tblAppointment { get; set; }
         public DbSet<Customer> tblCustomer { get; set; }
-        public DbSet<SalonImages> tblSalonImages { get; set; }
-        public DbSet<Treatment> tblTreatment { get; set; }
-        public DbSet<TreatmentPrice> tblTreatmentPrice { get; set; }
+        public DbSet<BusinessImages> tblBusinessImages { get; set; }
+        public DbSet<Service> tblService { get; set; }
+        public DbSet<ServicePrice> tblServicePrice { get; set; }
         public DbSet<Transaction> tblTransaction { get; set; }
-        public DbSet<Salons> tblSalons { get; set; }
+        public DbSet<Business> tblBusiness { get; set; }
         public DbSet<User> tblUser { get; set; }
 
     }

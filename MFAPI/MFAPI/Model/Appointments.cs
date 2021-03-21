@@ -9,9 +9,8 @@ namespace MFAPI.Model
         public int AppointmentId { get; set; }
         public string AppointmentNo { get; set; }
         public DateTime BookingDate { get; set; }
-        public int SalonId { get; set; }
-        public int TreatmentPriceId { get; set; }
-        public TreatmentPrice TreatmentPrice { get; set; }
+        public int ServicePriceId { get; set; }
+        public ServicePrice ServicePrice { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public string AppointmentStatus { get; set; }

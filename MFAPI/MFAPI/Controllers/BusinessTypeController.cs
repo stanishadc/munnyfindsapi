@@ -4,30 +4,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TreatmentPriceController : ControllerBase
+    public class BusinessTypeController : ControllerBase
     {
         private readonly SqlDbContext _context;
 
-        public TreatmentPriceController(SqlDbContext context)
+        public BusinessTypeController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<TreatmentPrice>>> Get()
+        public async Task<ActionResult<IEnumerable<BusinessType>>> Get()
         {
-            return await _context.tblTreatmentPrice.ToListAsync();
+            return await _context.tblBusinessType.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("GetByStatus")]
+        public async Task<ActionResult<IEnumerable<BusinessType>>> GetByStatus()
+        {
+            return await _context.tblBusinessType.Where(c => c.Status == true).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] TreatmentPrice model)
+        public async Task<Response> Insert([FromForm] BusinessType model)
         {
             Response _objResponse = new Response();
             try
@@ -36,6 +44,7 @@ namespace MFAPI.Controllers
                 {
                     model.CreatedDate = DateTime.Now;
                     model.UpdatedDate = DateTime.Now;
+                    model.BusinessTypeURL = urlreplace(model.Business);
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -59,19 +68,19 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<TreatmentPrice> Edit(int id)
+        public async Task<BusinessType> Edit(int id)
         {
-            return await _context.tblTreatmentPrice.FindAsync(id);
+            return await _context.tblBusinessType.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] TreatmentPrice model)
+        public async Task<Response> Update(int id, [FromForm] BusinessType model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.TreatmentPriceId)
+                if (id != model.BusinessTypeId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -79,6 +88,7 @@ namespace MFAPI.Controllers
                 else
                 {
                     model.UpdatedDate = DateTime.Now;
+                    model.BusinessTypeURL = urlreplace(model.Business);
                     _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
                     _context.Entry(model).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
@@ -103,15 +113,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var treatmentprice = await _context.tblTreatmentPrice.FindAsync(id);
-                if (treatmentprice == null)
+                var businessType = await _context.tblBusinessType.FindAsync(id);
+                if (businessType == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblTreatmentPrice.Remove(treatmentprice);
+                    _context.tblBusinessType.Remove(businessType);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
@@ -125,6 +135,10 @@ namespace MFAPI.Controllers
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
+        }
+        private string urlreplace(string name)
+        {
+            return name.Replace(" ", "-");
         }
     }
 }

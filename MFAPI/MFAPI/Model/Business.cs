@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MFAPI.Model
 {
-    public class Salons
+    public class Business
     {
         [Key]
-        public int SalonId { get; set; }
-        public string SalonName{ get; set; }
+        public int BusinessId { get; set; }
+        public string BusinessName{ get; set; }
+        public string Businessurl { get; set; }
         public string ContactName { get; set; }
         public string Landline { get; set; }
         public string MobileNo { get; set; }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
@@ -23,9 +24,15 @@ namespace MFAPI.Controllers
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
-            return await _context.tblCategory.Include(c => c.User).ToListAsync();
+            return await _context.tblCategory.ToListAsync();
         }
 
+        [HttpGet]
+        [Route("GetByStatus")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetByStatus()
+        {
+            return await _context.tblCategory.Where(c => c.Status == true).ToListAsync();
+        }
         [HttpPost]
         [Route("Insert")]
         public async Task<Response> Insert([FromForm] Category model)

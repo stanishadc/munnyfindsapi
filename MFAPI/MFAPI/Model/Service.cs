@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MFAPI.Model
 {
-    public class Treatment
+    public class Service
     {
         [Key]
-        public int TreatmentId { get; set; }
-        public string TreatmentName { get; set; }
-        public string Limitation { get; set; }
-        public int SalonId { get; set; }
-        public Salons Salon { get; set; }
+        public int ServiceId { get; set; }
+        public string ServiceName { get; set; }
+        public string Description { get; set; }
+        public int BusinessId { get; set; }
+        public Business Business { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public bool Status { get; set; }

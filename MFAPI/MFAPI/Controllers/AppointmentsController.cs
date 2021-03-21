@@ -25,26 +25,26 @@ namespace MFAPI.Controllers
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Appointments>>> Get()
         {
-            return await _context.tblAppointments.OrderBy(c => c.AppointmentId).ToListAsync();
+            return await _context.tblAppointment.OrderBy(c => c.AppointmentId).ToListAsync();
         }
 
         [HttpGet]
         [Route("GetById/{AppointmentId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetById(int AppointmentId)
         {
-            return await _context.tblAppointments.Where(s => s.AppointmentId == AppointmentId).Include(c => c.Customer).Include(tp => tp.TreatmentPrice).Include(t => t.TreatmentPrice.Treatment).Include(s => s.TreatmentPrice.Treatment.Salon).ToListAsync();
+            return await _context.tblAppointment.Where(s => s.AppointmentId == AppointmentId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
         }
         [HttpGet]
         [Route("GetByCustomer/{CustomerId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetByCustomer(int CustomerId)
         {
-            return await _context.tblAppointments.Where(s => s.CustomerId == CustomerId).Include(c => c.Customer).Include(tp => tp.TreatmentPrice).Include(t => t.TreatmentPrice.Treatment).Include(s => s.TreatmentPrice.Treatment.Salon).ToListAsync();
+            return await _context.tblAppointment.Where(s => s.CustomerId == CustomerId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
         }
         [HttpGet]
-        [Route("GetBySalon/{SalonId}")]
-        public async Task<ActionResult<IEnumerable<Appointments>>> GetBySalon(int SalonId)
+        [Route("GetBySalon/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<Appointments>>> GetBySalon(int BusinessId)
         {
-            return await _context.tblAppointments.Where(s => s.SalonId == SalonId).Include(c => c.Customer).Include(tp => tp.TreatmentPrice).Include(t => t.TreatmentPrice.Treatment).Include(s => s.TreatmentPrice.Treatment.Salon).ToListAsync();
+            return await _context.tblAppointment.Where(s => s.ServicePrice.Service.BusinessId == BusinessId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
@@ -82,7 +82,7 @@ namespace MFAPI.Controllers
         [Route("Edit/{id}")]
         public async Task<Appointments> Edit(int id)
         {
-            return await _context.tblAppointments.FindAsync(id);
+            return await _context.tblAppointment.FindAsync(id);
         }
 
         [HttpPut]
@@ -124,7 +124,7 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var appointements = await _context.tblAppointments.FindAsync(id);
+                var appointements = await _context.tblAppointment.FindAsync(id);
                 if (appointements == null)
                 {
                     _objResponse.Status = "No record found";
@@ -132,7 +132,7 @@ namespace MFAPI.Controllers
                 }
                 else
                 {
-                    _context.tblAppointments.Remove(appointements);
+                    _context.tblAppointment.Remove(appointements);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

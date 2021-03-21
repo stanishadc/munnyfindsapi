@@ -1,35 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {}
+    "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {}
   },
   "projects": {
-    "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {
+    "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
+        "projectUniqueName": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
         "projectName": "MFAPI",
-        "projectPath": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
-        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
-        "outputPath": "D:\\Company Projects\\MunnyFinds\\MAPI\\MFAPI\\MFAPI\\MFAPI\\obj\\",
+        "projectPath": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
+        "packagesPath": "C:\\Users\\stani\\.nuget\\packages\\",
+        "outputPath": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\stani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/stanishadc/_packaging/stanishadc/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -41,6 +42,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -73,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

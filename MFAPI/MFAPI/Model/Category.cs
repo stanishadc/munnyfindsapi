@@ -11,8 +11,8 @@ namespace MFAPI.Model
         public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public BusinessType BusinessType { get; set; }
+        public int BusinessTypeId { get; set; }
         public string Categoryurl { get; set; }
     }
 }

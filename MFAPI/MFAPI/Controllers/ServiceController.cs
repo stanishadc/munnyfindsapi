@@ -10,24 +10,24 @@ namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TreatmentController : ControllerBase
+    public class ServiceController : ControllerBase
     {
         private readonly SqlDbContext _context;
 
-        public TreatmentController(SqlDbContext context)
+        public ServiceController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<Treatment>>> Get()
+        public async Task<ActionResult<IEnumerable<Service>>> Get()
         {
-            return await _context.tblTreatment.ToListAsync();
+            return await _context.tblService.ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] Treatment model)
+        public async Task<Response> Insert([FromForm] Service model)
         {
             Response _objResponse = new Response();
             try
@@ -59,19 +59,19 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<Treatment> Edit(int id)
+        public async Task<Service> Edit(int id)
         {
-            return await _context.tblTreatment.FindAsync(id);
+            return await _context.tblService.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] Treatment model)
+        public async Task<Response> Update(int id, [FromForm] Service model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.TreatmentId)
+                if (id != model.ServiceId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -103,7 +103,7 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var treatment = await _context.tblTreatment.FindAsync(id);
+                var treatment = await _context.tblService.FindAsync(id);
                 if (treatment == null)
                 {
                     _objResponse.Status = "No record found";
@@ -111,7 +111,7 @@ namespace MFAPI.Controllers
                 }
                 else
                 {
-                    _context.tblTreatment.Remove(treatment);
+                    _context.tblService.Remove(treatment);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
