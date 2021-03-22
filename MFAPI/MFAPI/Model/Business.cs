@@ -9,6 +9,8 @@ namespace MFAPI.Model
         public int BusinessId { get; set; }
         public string BusinessName{ get; set; }
         public string Businessurl { get; set; }
+        public BusinessType BusinessType { get; set; }
+        public int BusinessTypeId { get; set; }
         public string ContactName { get; set; }
         public string Landline { get; set; }
         public string MobileNo { get; set; }

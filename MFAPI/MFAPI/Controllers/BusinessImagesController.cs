@@ -42,8 +42,8 @@ namespace MFAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetBySalon/{SalonId}")]
-        public async Task<ActionResult<IEnumerable<BusinessImages>>> GetBySalon(int SalonId)
+        [Route("GetByBusiness/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<BusinessImages>>> GetByBusiness(int BusinessId)
         {
             return await _context.tblBusinessImages
                .Select(x => new BusinessImages()
@@ -55,7 +55,7 @@ namespace MFAPI.Controllers
                    UpdatedDate = x.UpdatedDate,
                    Status = x.Status,
                    ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
-               }).Where(x => x.BusinessId == SalonId).ToListAsync();
+               }).Where(x => x.BusinessId == BusinessId).ToListAsync();
         }
 
         [HttpPost]

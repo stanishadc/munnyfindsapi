@@ -32,6 +32,12 @@ namespace MFAPI.Controllers
         {
             return await _context.tblBusiness.Where(s=>s.BusinessId== BusinessId).ToListAsync();
         }
+        [HttpGet]
+        [Route("GetByType/{BusinessTypeId}")]
+        public async Task<ActionResult<IEnumerable<Business>>> GetByType(int BusinessTypeId)
+        {
+            return await _context.tblBusiness.Where(s => s.BusinessType.BusinessTypeId == BusinessTypeId).ToListAsync();
+        }
 
         [HttpPost]
         [Route("Insert")]
