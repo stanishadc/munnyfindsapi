@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
@@ -24,6 +25,12 @@ namespace MFAPI.Controllers
         public async Task<ActionResult<IEnumerable<Service>>> Get()
         {
             return await _context.tblService.ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetByBusinessId/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetByBusinessId(int BusinessId)
+        {
+            return await _context.tblService.Include(c => c.Category).Where(b => b.BusinessId == BusinessId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]

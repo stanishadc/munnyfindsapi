@@ -18,6 +18,7 @@ namespace MFAPI.Common
         public DbSet<Transaction> tblTransaction { get; set; }
         public DbSet<Business> tblBusiness { get; set; }
         public DbSet<User> tblUser { get; set; }
+        public DbSet<BusinessAvailability> tblBusinessAvailability { get; set; }
 
     }
 }

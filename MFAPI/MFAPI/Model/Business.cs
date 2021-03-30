@@ -23,6 +23,7 @@ namespace MFAPI.Model
         public string ZipCode { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public string Password { get; set; }
         public int TotalRatings { get; set; }
         public double Rating { get; set; }
         public bool Status { get; set; }

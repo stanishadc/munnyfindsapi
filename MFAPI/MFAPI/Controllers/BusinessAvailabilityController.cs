@@ -1,5 +1,6 @@
 ﻿using MFAPI.Common;
 using MFAPI.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,75 +12,36 @@ namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessController : ControllerBase
+    public class BusinessAvailabilityController : ControllerBase
     {
         private readonly SqlDbContext _context;
-        public BusinessController(SqlDbContext context)
+
+        public BusinessAvailabilityController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<Business>>> Get()
+        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> Get()
         {
-            return await _context.tblBusiness.ToListAsync();
-        }
-
-        [HttpGet]
-        [Route("GetById/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<Business>>> GetById(int BusinessId)
-        {
-            return await _context.tblBusiness.Where(s=>s.BusinessId== BusinessId).ToListAsync();
+            return await _context.tblBusinessAvailability.ToListAsync();
         }
         [HttpGet]
-        [Route("GetByType/{BusinessTypeId}")]
-        public async Task<ActionResult<IEnumerable<Business>>> GetByType(int BusinessTypeId)
+        [Route("GetByBusinessId/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessId(int BusinessId)
         {
-            return await _context.tblBusiness.Where(s => s.BusinessType.BusinessTypeId == BusinessTypeId).ToListAsync();
-        }
-        [HttpPost]
-        [Route("businesslogin")]
-        public async Task<Response> businesslogin([FromBody] LoginModel model)
-        {
-            Response _objResponse = new Response();
-            try
-            {
-                List<Business> businesses = await _context.tblBusiness.Where(u => u.Email == model.Email && u.Password == model.Password).ToListAsync();
-                if (businesses.Count > 0)
-                {
-                    _objResponse.Data = businesses;
-                    _objResponse.UserId = businesses[0].BusinessId;
-                    _objResponse.Status = "Login Success";
-                }
-                else
-                {
-                    _objResponse.Data = "";
-                    _objResponse.UserId = 0;
-                    _objResponse.Status = "Invalid Credentails";
-                }
-            }
-            catch (Exception ex)
-            {
-                _objResponse.Data = null;
-                _objResponse.Status = ex.Message;
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
-                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
-            }
-            return _objResponse;
+            return await _context.tblBusinessAvailability.Where(c => c.BusinessId == BusinessId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] Business model)
+        public async Task<Response> Insert([FromForm] BusinessAvailability model)
         {
             Response _objResponse = new Response();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    model.CreatedDate = DateTime.Now;
-                    model.UpdatedDate = DateTime.Now;
-                    model.Businessurl = urlreplace(model.BusinessName);
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -103,28 +65,25 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<Business> Edit(int id)
+        public async Task<BusinessAvailability> Edit(int id)
         {
-            return await _context.tblBusiness.FindAsync(id);
+            return await _context.tblBusinessAvailability.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] Business model)
+        public async Task<Response> Update(int id, [FromForm] BusinessAvailability model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.BusinessId)
+                if (id != model.BusinessAvailabilityId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    model.UpdatedDate = DateTime.Now;
-                    model.Businessurl = urlreplace(model.BusinessName);
-                    _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
                     _context.Entry(model).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -148,15 +107,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var salon = await _context.tblBusiness.FindAsync(id);
-                if (salon == null)
+                var businessAvailability = await _context.tblBusinessAvailability.FindAsync(id);
+                if (businessAvailability == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblBusiness.Remove(salon);
+                    _context.tblBusinessAvailability.Remove(businessAvailability);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
@@ -170,10 +129,6 @@ namespace MFAPI.Controllers
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
-        }
-        private string urlreplace(string name)
-        {
-            return name.Replace(" ", "-");
         }
     }
 }
