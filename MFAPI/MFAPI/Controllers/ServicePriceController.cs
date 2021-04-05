@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
@@ -13,17 +14,27 @@ namespace MFAPI.Controllers
     public class ServicePriceController : ControllerBase
     {
         private readonly SqlDbContext _context;
-
         public ServicePriceController(SqlDbContext context)
         {
             _context = context;
         }
-
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<ServicePrice>>> Get()
         {
-            return await _context.tblServicePrice.ToListAsync();
+            return await _context.tblServicePrice.Include(c => c.Service).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetByServiceId")]
+        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetByServiceId()
+        {
+            return await _context.tblServicePrice.Include(c => c.Service).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetByBusinessId/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetByBusinessId(int BusinessId)
+        {
+            return await _context.tblServicePrice.Include(c => c.Service).Include(c => c.Service.Business).Where(c => c.Service.BusinessId== BusinessId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
@@ -56,7 +67,6 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpGet]
         [Route("Edit/{id}")]
         public async Task<ServicePrice> Edit(int id)
@@ -95,7 +105,6 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpDelete]
         [Route("Delete/{id}")]
         public async Task<Response> Delete(int id)

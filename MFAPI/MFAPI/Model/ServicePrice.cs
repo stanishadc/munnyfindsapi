@@ -11,6 +11,8 @@ namespace MFAPI.Model
         public bool Status { get; set; }
         public int ServiceId { get; set; }
         public Service Service { get; set; }
+        public string Description { get; set; }
+        public string ServicePriceName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MFAPI.Model
@@ -8,16 +9,22 @@ namespace MFAPI.Model
         [Key]
         public int AppointmentId { get; set; }
         public string AppointmentNo { get; set; }
-        public DateTime BookingDate { get; set; }
-        public int ServicePriceId { get; set; }
-        public ServicePrice ServicePrice { get; set; }
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
-        public string AppointmentStatus { get; set; }
-        public string PaymentStatus { get; set; }
-        public string ModeOfPayment { get; set; }
+        public DateTime AppointmentDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string AppointmentTime { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public string Duration { get; set; }
+        public string UserServices { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        public int BusinessId { get; set; }
+        public Business Business { get; set; }
+        public string BookingStatus { get; set; }
+        public string PaymentStatus { get; set; }
+        public string ModeOfPayment { get; set; }
+        public string PaymentPlace { get; set; }
         public double SubTotal { get; set; }
         public double Discount { get; set; }
         public double Total { get; set; }

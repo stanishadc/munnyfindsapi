@@ -14,19 +14,24 @@ namespace MFAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly SqlDbContext _context;
-
         public CategoryController(SqlDbContext context)
         {
             _context = context;
         }
-
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
-            return await _context.tblCategory.ToListAsync();
-        }
+            //return await _context.tblCategory.ToListAsync();
 
+            return await _context.tblCategory.Include(c => c.BusinessType).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetByType/{BusinessTypeId}")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetByType(int BusinessTypeId)
+        {
+            return await _context.tblCategory.Where(c => c.BusinessTypeId == BusinessTypeId).ToListAsync();
+        }
         [HttpGet]
         [Route("GetByStatus")]
         public async Task<ActionResult<IEnumerable<Category>>> GetByStatus()
@@ -72,7 +77,6 @@ namespace MFAPI.Controllers
         {
             return await _context.tblCategory.FindAsync(id);
         }
-
         [HttpPut]
         [Route("Update/{id}")]
         public async Task<Response> Update(int id, [FromForm] Category model)
@@ -105,7 +109,6 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpDelete]
         [Route("Delete/{id}")]
         public async Task<Response> Delete(int id)

@@ -1,6 +1,5 @@
 ﻿using MFAPI.Common;
 using MFAPI.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,36 +11,37 @@ namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessAvailabilityController : ControllerBase
+    public class AppointmentServicesController : ControllerBase
     {
         private readonly SqlDbContext _context;
 
-        public BusinessAvailabilityController(SqlDbContext context)
+        public AppointmentServicesController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> Get()
+        public async Task<ActionResult<IEnumerable<AppointmentServices>>> Get()
         {
-            return await _context.tblBusinessAvailability.ToListAsync();
+            return await _context.tblAppointmentService.OrderBy(c => c.AppointmentId).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("GetById/{AppointmentId}")]
+        public async Task<ActionResult<IEnumerable<AppointmentServices>>> GetById(int AppointmentId)
+        {
+            return await _context.tblAppointmentService.Include(c => c.Appointments).Where(s => s.AppointmentId == AppointmentId).ToListAsync();
         }
         [HttpGet]
-        [Route("GetByBusinessId/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessId(int BusinessId)
+        [Route("GetByCustomer/{CustomerId}")]
+        public async Task<ActionResult<IEnumerable<AppointmentServices>>> GetByCustomer(int CustomerId)
         {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.BusinessId == BusinessId).ToListAsync();
-        }
-        [HttpGet]
-        [Route("GetByBusinessUrl/{BusinessUrl}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessUrl(string BusinessUrl)
-        {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.Business.BusinessUrl == BusinessUrl).ToListAsync();
+            return await _context.tblAppointmentService.Include(c => c.Appointments).Where(s => s.Appointments.CustomerId == CustomerId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] BusinessAvailability model)
+        public async Task<Response> Insert([FromForm] AppointmentServices model)
         {
             Response _objResponse = new Response();
             try
@@ -71,19 +71,19 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<BusinessAvailability> Edit(int id)
+        public async Task<AppointmentServices> Edit(int id)
         {
-            return await _context.tblBusinessAvailability.FindAsync(id);
+            return await _context.tblAppointmentService.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] BusinessAvailability model)
+        public async Task<Response> Update(int id, [FromForm] AppointmentServices model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.BusinessAvailabilityId)
+                if (id != model.AppointmentId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -113,15 +113,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var businessAvailability = await _context.tblBusinessAvailability.FindAsync(id);
-                if (businessAvailability == null)
+                var appointements = await _context.tblAppointmentService.FindAsync(id);
+                if (appointements == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblBusinessAvailability.Remove(businessAvailability);
+                    _context.tblAppointmentService.Remove(appointements);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

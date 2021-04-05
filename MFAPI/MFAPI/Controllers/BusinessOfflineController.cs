@@ -12,36 +12,37 @@ namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessAvailabilityController : ControllerBase
+    public class BusinessOfflineController : ControllerBase
     {
         private readonly SqlDbContext _context;
 
-        public BusinessAvailabilityController(SqlDbContext context)
+        public BusinessOfflineController(SqlDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> Get()
+        public async Task<ActionResult<IEnumerable<BusinessOffline>>> Get()
         {
-            return await _context.tblBusinessAvailability.ToListAsync();
+            return await _context.tblBusinessOffline.ToListAsync();
         }
         [HttpGet]
-        [Route("GetByBusinessId/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessId(int BusinessId)
+        [Route("GetById/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<BusinessOffline>>> GetById(int BusinessId)
         {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.BusinessId == BusinessId).ToListAsync();
+            return await _context.tblBusinessOffline.Where(s => s.BusinessId == BusinessId).ToListAsync();
         }
         [HttpGet]
-        [Route("GetByBusinessUrl/{BusinessUrl}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessUrl(string BusinessUrl)
+        [Route("getbyurl/{BusinessUrl}")]
+        public async Task<ActionResult<IEnumerable<BusinessOffline>>> getbyurl(string BusinessUrl)
         {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.Business.BusinessUrl == BusinessUrl).ToListAsync();
+            return await _context.tblBusinessOffline.Where(s => s.Business.BusinessUrl == BusinessUrl).ToListAsync();
         }
+
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] BusinessAvailability model)
+        public async Task<Response> Insert([FromForm] BusinessOffline model)
         {
             Response _objResponse = new Response();
             try
@@ -71,19 +72,19 @@ namespace MFAPI.Controllers
 
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<BusinessAvailability> Edit(int id)
+        public async Task<BusinessOffline> Edit(int id)
         {
-            return await _context.tblBusinessAvailability.FindAsync(id);
+            return await _context.tblBusinessOffline.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] BusinessAvailability model)
+        public async Task<Response> Update(int id, [FromForm] BusinessOffline model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.BusinessAvailabilityId)
+                if (id != model.BusinessOfflineId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -113,15 +114,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var businessAvailability = await _context.tblBusinessAvailability.FindAsync(id);
-                if (businessAvailability == null)
+                var businessoffline = await _context.tblBusinessOffline.FindAsync(id);
+                if (businessoffline == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblBusinessAvailability.Remove(businessAvailability);
+                    _context.tblBusinessOffline.Remove(businessoffline);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

@@ -19,6 +19,15 @@ namespace MFAPI.Common
         public DbSet<Business> tblBusiness { get; set; }
         public DbSet<User> tblUser { get; set; }
         public DbSet<BusinessAvailability> tblBusinessAvailability { get; set; }
-
+        public DbSet<AboutUs> tblAboutUs { get; set; }
+        public DbSet<Faq> tblFaq { get; set; }
+        public DbSet<TermsAndConditions> tblTermsAndConditions { get; set; }
+        public DbSet<ContactUs> tblContactUs { get; set; }
+        public DbSet<Offers> tblOffers { get; set; }
+        public DbSet<Subject> tblSubject { get; set; }
+        public DbSet<PrivacyPolicy> tblPrivacyPolicy { get; set; }
+        public DbSet<Support> tblSupport { get; set; }
+        public DbSet<AppointmentServices> tblAppointmentService { get; set; }
+        public DbSet<BusinessOffline> tblBusinessOffline { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace MFAPI.Model
         [Key]
         public int BusinessId { get; set; }
         public string BusinessName{ get; set; }
-        public string Businessurl { get; set; }
+        public string BusinessUrl { get; set; }
         public BusinessType BusinessType { get; set; }
         public int BusinessTypeId { get; set; }
         public string ContactName { get; set; }
@@ -23,9 +23,6 @@ namespace MFAPI.Model
         public string ZipCode { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public string Password { get; set; }
-        public string Currency { get; set; }
-        public string About { get; set; }
         public int TotalRatings { get; set; }
         public double Rating { get; set; }
         public bool Status { get; set; }

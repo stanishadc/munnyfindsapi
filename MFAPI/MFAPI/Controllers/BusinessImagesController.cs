@@ -57,6 +57,22 @@ namespace MFAPI.Controllers
                    ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
                }).Where(x => x.BusinessId == BusinessId).ToListAsync();
         }
+        [HttpGet]
+        [Route("GetByUrl/{BusinessUrl}")]
+        public async Task<ActionResult<IEnumerable<BusinessImages>>> GetByUrl(string BusinessUrl)
+        {
+            return await _context.tblBusinessImages
+               .Select(x => new BusinessImages()
+               {
+                   BusinessId = x.BusinessId,
+                   BusinessImageId = x.BusinessImageId,
+                   ImageName = x.ImageName,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   Status = x.Status,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).Where(x => x.Business.BusinessUrl == BusinessUrl).ToListAsync();
+        }
 
         [HttpPost]
         [Route("Insert")]

@@ -14,19 +14,16 @@ namespace MFAPI.Controllers
     public class BusinessTypeController : ControllerBase
     {
         private readonly SqlDbContext _context;
-
         public BusinessTypeController(SqlDbContext context)
         {
             _context = context;
         }
-
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<BusinessType>>> Get()
         {
             return await _context.tblBusinessType.ToListAsync();
         }
-
         [HttpGet]
         [Route("GetByStatus")]
         public async Task<ActionResult<IEnumerable<BusinessType>>> GetByStatus()
@@ -65,14 +62,12 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpGet]
         [Route("Edit/{id}")]
         public async Task<BusinessType> Edit(int id)
         {
             return await _context.tblBusinessType.FindAsync(id);
         }
-
         [HttpPut]
         [Route("Update/{id}")]
         public async Task<Response> Update(int id, [FromForm] BusinessType model)
@@ -105,7 +100,6 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpDelete]
         [Route("Delete/{id}")]
         public async Task<Response> Delete(int id)

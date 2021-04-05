@@ -8,8 +8,6 @@ namespace MFAPI.Model
         [Key]
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
-        public string Duration { get; set; }
-        public double Price { get; set; }
         public string Description { get; set; }
         public int BusinessId { get; set; }
         public Business Business { get; set; }

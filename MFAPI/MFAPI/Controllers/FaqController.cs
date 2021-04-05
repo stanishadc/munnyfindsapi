@@ -1,47 +1,33 @@
-﻿using MFAPI.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MFAPI.Common;
 using MFAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessAvailabilityController : ControllerBase
+    public class FaqController : ControllerBase
     {
         private readonly SqlDbContext _context;
-
-        public BusinessAvailabilityController(SqlDbContext context)
+        public FaqController(SqlDbContext context)
         {
             _context = context;
         }
-
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> Get()
+        public async Task<ActionResult<IEnumerable<Faq>>> Get()
         {
-            return await _context.tblBusinessAvailability.ToListAsync();
-        }
-        [HttpGet]
-        [Route("GetByBusinessId/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessId(int BusinessId)
-        {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.BusinessId == BusinessId).ToListAsync();
-        }
-        [HttpGet]
-        [Route("GetByBusinessUrl/{BusinessUrl}")]
-        public async Task<ActionResult<IEnumerable<BusinessAvailability>>> GetByBusinessUrl(string BusinessUrl)
-        {
-            return await _context.tblBusinessAvailability.Include(c => c.Business).Where(c => c.Business.BusinessUrl == BusinessUrl).ToListAsync();
+            return await _context.tblFaq.Include(c => c.Subject).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] BusinessAvailability model)
+        public async Task<Response> Insert([FromForm] Faq model)
         {
             Response _objResponse = new Response();
             try
@@ -68,22 +54,20 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<BusinessAvailability> Edit(int id)
+        public async Task<Faq> Edit(int id)
         {
-            return await _context.tblBusinessAvailability.FindAsync(id);
+            return await _context.tblFaq.FindAsync(id);
         }
-
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] BusinessAvailability model)
+        public async Task<Response> Update(int id, [FromForm] Faq model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.BusinessAvailabilityId)
+                if (id != model.FaqId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -105,23 +89,21 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
-        [HttpDelete]
         [Route("Delete/{id}")]
         public async Task<Response> Delete(int id)
         {
             Response _objResponse = new Response();
             try
             {
-                var businessAvailability = await _context.tblBusinessAvailability.FindAsync(id);
-                if (businessAvailability == null)
+                var faq = await _context.tblFaq.FindAsync(id);
+                if (faq == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblBusinessAvailability.Remove(businessAvailability);
+                    _context.tblFaq.Remove(faq);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
@@ -135,6 +117,10 @@ namespace MFAPI.Controllers
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
+        }
+        private string urlreplace(string name)
+        {
+            return name.Replace(" ", "-");
         }
     }
 }

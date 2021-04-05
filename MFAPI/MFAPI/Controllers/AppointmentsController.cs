@@ -13,7 +13,7 @@ namespace MFAPI.Controllers
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-
+        GlobalData gc = new GlobalData();
         private readonly SqlDbContext _context;
 
         public AppointmentsController(SqlDbContext context)
@@ -27,25 +27,26 @@ namespace MFAPI.Controllers
         {
             return await _context.tblAppointment.OrderBy(c => c.AppointmentId).ToListAsync();
         }
-
+        [HttpGet]
+        [Route("CheckOffline/{BusinessId}")]
+        public async Task<IEnumerable<Appointments>> CheckOffline(string BusinessUrl)
+        {
+            var databaseContext = _context.tblAppointment.Where(f => f.Business.BusinessUrl == BusinessUrl && f.StartDate >= DateTime.Now && (f.BookingStatus == "Completed" || f.BookingStatus == "Confirmed"));
+            return await databaseContext.ToListAsync();
+        }
         [HttpGet]
         [Route("GetById/{AppointmentId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetById(int AppointmentId)
         {
-            return await _context.tblAppointment.Where(s => s.AppointmentId == AppointmentId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
+            return await _context.tblAppointment.Where(s => s.AppointmentId == AppointmentId).Include(c => c.Customer).ToListAsync();
         }
         [HttpGet]
         [Route("GetByCustomer/{CustomerId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetByCustomer(int CustomerId)
         {
-            return await _context.tblAppointment.Where(s => s.CustomerId == CustomerId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
+            return await _context.tblAppointment.Where(s => s.CustomerId == CustomerId).Include(c => c.Customer).ToListAsync();
         }
-        [HttpGet]
-        [Route("GetBySalon/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<Appointments>>> GetBySalon(int BusinessId)
-        {
-            return await _context.tblAppointment.Where(s => s.ServicePrice.Service.BusinessId == BusinessId).Include(c => c.Customer).Include(tp => tp.ServicePrice).Include(t => t.ServicePrice.Service).Include(s => s.ServicePrice.Service.Business).ToListAsync();
-        }
+        
         [HttpPost]
         [Route("Insert")]
         public async Task<Response> Insert([FromForm] Appointments model)
@@ -57,10 +58,11 @@ namespace MFAPI.Controllers
                 {
                     model.CreatedDate = DateTime.Now;
                     model.UpdatedDate = DateTime.Now;
+                    model.AppointmentNo = gc.GetAppointmentNo();
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
-                    _objResponse.Data = null;
+                    _objResponse.Data = model.AppointmentNo;
                 }
                 else
                 {

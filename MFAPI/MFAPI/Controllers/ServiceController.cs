@@ -14,23 +14,22 @@ namespace MFAPI.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly SqlDbContext _context;
-
         public ServiceController(SqlDbContext context)
         {
             _context = context;
         }
-
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Service>>> Get()
         {
-            return await _context.tblService.ToListAsync();
+            //return await _context.tblService.ToListAsync();
+            return await _context.tblService.Include(c => c.Business).Include(c => c.Category).ToListAsync();
         }
         [HttpGet]
-        [Route("GetByBusinessId/{BusinessId}")]
-        public async Task<ActionResult<IEnumerable<Service>>> GetByBusinessId(int BusinessId)
+        [Route("GetByType/{CategoryId}")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetByType(int CategoryId)
         {
-            return await _context.tblService.Include(c => c.Category).Where(b => b.BusinessId == BusinessId).ToListAsync();
+            return await _context.tblService.Where(c => c.CategoryId == CategoryId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
@@ -63,14 +62,12 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpGet]
         [Route("Edit/{id}")]
         public async Task<Service> Edit(int id)
         {
             return await _context.tblService.FindAsync(id);
         }
-
         [HttpPut]
         [Route("Update/{id}")]
         public async Task<Response> Update(int id, [FromForm] Service model)
@@ -102,7 +99,6 @@ namespace MFAPI.Controllers
             }
             return _objResponse;
         }
-
         [HttpDelete]
         [Route("Delete/{id}")]
         public async Task<Response> Delete(int id)
