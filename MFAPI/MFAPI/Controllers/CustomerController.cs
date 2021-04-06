@@ -32,6 +32,36 @@ namespace MFAPI.Controllers
             return await _context.tblCustomer.Where(s => s.CustomerId == CustomerId).ToListAsync();
         }
         [HttpPost]
+        [Route("customerlogin")]
+        public async Task<Response> customerlogin([FromBody] LoginModel model)
+        {
+            Response _objResponse = new Response();
+            try
+            {
+                List<Customer> customers = await _context.tblCustomer.Where(u => u.CustomerEmail == model.Email && u.Password == model.Password).ToListAsync();
+                if (customers.Count > 0)
+                {
+                    _objResponse.Data = customers;
+                    _objResponse.UserId = customers[0].CustomerId;
+                    _objResponse.Status = "Login Success";
+                }
+                else
+                {
+                    _objResponse.Data = "";
+                    _objResponse.UserId = 0;
+                    _objResponse.Status = "Invalid Credentails";
+                }
+            }
+            catch (Exception ex)
+            {
+                _objResponse.Data = null;
+                _objResponse.Status = ex.Message;
+                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
+            }
+            return _objResponse;
+        }
+        [HttpPost]
         [Route("Insert")]
         public async Task<Response> Insert([FromForm] Customer model)
         {
@@ -83,6 +113,41 @@ namespace MFAPI.Controllers
                 else
                 {
                     model.UpdatedDate = DateTime.Now;
+                    _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
+                    _context.Entry(model).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    _objResponse.Status = "Success";
+                    _objResponse.Data = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _objResponse.Data = null;
+                _objResponse.Status = ex.ToString();
+                Console.WriteLine("\nMessage ---\n{0}", ex.ToString());
+                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
+            }
+            return _objResponse;
+        }
+        [HttpPut]
+        [Route("ChangePassword/{id}")]
+        public async Task<Response> ChangePassword(int id, [FromForm] Customer model)
+        {
+            Response _objResponse = new Response();
+            try
+            {
+                if (id != model.CustomerId)
+                {
+                    _objResponse.Status = "No record found";
+                    _objResponse.Data = null;
+                }
+                else
+                {
+                    model.UpdatedDate = DateTime.Now;
+                    _context.Entry(model).Property(x => x.CustomerName).IsModified = false;
+                    _context.Entry(model).Property(x => x.CustomerEmail).IsModified = false;
+                    _context.Entry(model).Property(x => x.CustomerMobile).IsModified = false;
+                    _context.Entry(model).Property(x => x.Status).IsModified = false;
                     _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
                     _context.Entry(model).State = EntityState.Modified;
                     await _context.SaveChangesAsync();

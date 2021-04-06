@@ -44,6 +44,36 @@ namespace MFAPI.Controllers
             return await _context.tblBusiness.Where(s => s.BusinessType.BusinessTypeId == BusinessTypeId).ToListAsync();
         }
         [HttpPost]
+        [Route("businesslogin")]
+        public async Task<Response> businesslogin([FromBody] LoginModel model)
+        {
+            Response _objResponse = new Response();
+            try
+            {
+                List<Business> businesses = await _context.tblBusiness.Where(u => u.Email == model.Email && u.Password == model.Password).ToListAsync();
+                if (businesses.Count > 0)
+                {
+                    _objResponse.Data = businesses;
+                    _objResponse.UserId = businesses[0].BusinessId;
+                    _objResponse.Status = "Login Success";
+                }
+                else
+                {
+                    _objResponse.Data = "";
+                    _objResponse.UserId = 0;
+                    _objResponse.Status = "Invalid Credentails";
+                }
+            }
+            catch (Exception ex)
+            {
+                _objResponse.Data = null;
+                _objResponse.Status = ex.Message;
+                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
+            }
+            return _objResponse;
+        }
+        [HttpPost]
         [Route("Insert")]
         public async Task<Response> Insert([FromForm] Business model)
         {

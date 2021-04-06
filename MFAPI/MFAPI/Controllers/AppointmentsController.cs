@@ -31,7 +31,28 @@ namespace MFAPI.Controllers
         [Route("CheckOffline/{BusinessId}")]
         public async Task<IEnumerable<Appointments>> CheckOffline(string BusinessUrl)
         {
-            var databaseContext = _context.tblAppointment.Where(f => f.Business.BusinessUrl == BusinessUrl && f.StartDate >= DateTime.Now && (f.BookingStatus == "Completed" || f.BookingStatus == "Confirmed"));
+            var databaseContext = _context.tblAppointment.Include(b => b.Business).Include(b => b.Customer).Where(f => f.Business.BusinessUrl == BusinessUrl && f.StartDate >= DateTime.Now && (f.BookingStatus == "Completed" || f.BookingStatus == "Confirmed"));
+            return await databaseContext.ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetCompletedAppointments/{BusinessId}")]
+        public async Task<IEnumerable<Appointments>> GetCompletedAppointments(int BusinessId)
+        {
+            var databaseContext = _context.tblAppointment.Include(b => b.Business).Include(b => b.Customer).Where(f => f.BusinessId == BusinessId && f.BookingStatus == "Completed");
+            return await databaseContext.ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetCancelledAppointments/{BusinessId}")]
+        public async Task<IEnumerable<Appointments>> GetCancelledAppointments(int BusinessId)
+        {
+            var databaseContext = _context.tblAppointment.Include(b => b.Business).Include(b => b.Customer).Where(f => f.BusinessId == BusinessId && f.BookingStatus == "Cancelled");
+            return await databaseContext.ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetUpcomingAppointments/{BusinessId}")]
+        public async Task<IEnumerable<Appointments>> GetUpcomingAppointments(int BusinessId)
+        {
+            var databaseContext = _context.tblAppointment.Include(b => b.Business).Include(b => b.Customer).Where(f => f.BusinessId == BusinessId && f.AppointmentDate >= DateTime.Now);
             return await databaseContext.ToListAsync();
         }
         [HttpGet]
@@ -44,7 +65,7 @@ namespace MFAPI.Controllers
         [Route("GetByCustomer/{CustomerId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetByCustomer(int CustomerId)
         {
-            return await _context.tblAppointment.Where(s => s.CustomerId == CustomerId).Include(c => c.Customer).ToListAsync();
+            return await _context.tblAppointment.Include(b => b.Business).Include(c => c.Customer).Where(s => s.CustomerId == CustomerId).ToListAsync();
         }
         
         [HttpPost]
