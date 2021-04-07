@@ -14,17 +14,13 @@ namespace MFAPI.Common
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
 
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.gmail.com";
-            client.Port = 25;
-            client.EnableSsl = false;
-            client.UseDefaultCredentials = false;
-            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            System.Net.NetworkCredential basicCredential1 = new System.Net.NetworkCredential("eternaluppal@gmail.com", "98d39ete");
-            client.Credentials = basicCredential1;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = new System.Net.NetworkCredential("eternaluppal@gmail.com", "98d39ete");            
             try
             {
-                client.Send(message);
+                smtp.Send(message);
             }
             catch (Exception ex)
             {

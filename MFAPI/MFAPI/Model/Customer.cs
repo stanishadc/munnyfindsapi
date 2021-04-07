@@ -14,5 +14,11 @@ namespace MFAPI.Model
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string Password { get; set; }
+        public string CustomerOTP { get; set; }
+    }
+    public class VerifyModel
+    {
+        public string CustomerEmail { get; set; }
+        public string CustomerOTP { get; set; }
     }
 }
