@@ -7,7 +7,6 @@ namespace MFAPI.Model
     {
         [Key]
         public int UserId { get; set; }
-        public string Username { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -21,7 +20,7 @@ namespace MFAPI.Model
     }
     public class Login
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }

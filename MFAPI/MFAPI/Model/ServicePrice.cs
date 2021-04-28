@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MFAPI.Model
 {
     public class ServicePrice
@@ -15,5 +17,13 @@ namespace MFAPI.Model
         public string ServicePriceName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        [NotMapped]
+        public int BusinessId { get; set; }
+        [NotMapped]
+        public int BusinessTypeId { get; set; }
+        [NotMapped]
+        public int CategoryId { get; set; }
+        [NotMapped]
+        public string ServiceName { get; set; }
     }
 }

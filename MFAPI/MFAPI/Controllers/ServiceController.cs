@@ -22,8 +22,27 @@ namespace MFAPI.Controllers
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Service>>> Get()
         {
-            //return await _context.tblService.ToListAsync();
-            return await _context.tblService.Include(c => c.Business).Include(c => c.Category).ToListAsync();
+            return await _context.tblService
+               .Select(x => new Service()
+               {
+                   ServiceId = x.ServiceId,
+                   ServiceName = x.ServiceName,
+                   Description = x.Description,
+                   BusinessId = x.BusinessId,
+                   CategoryId = x.CategoryId,
+                   Status = x.Status,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   BusinessTypeId = x.Business.BusinessTypeId,
+                   BusinessName = x.Business.BusinessName,
+                   CategoryName = x.Category.CategoryName
+               }).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetById/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetById(int BusinessId)
+        {
+            return await _context.tblService.Where(s => s.BusinessId == BusinessId).Include(c => c.Category).ToListAsync();
         }
         [HttpGet]
         [Route("GetByType/{CategoryId}")]

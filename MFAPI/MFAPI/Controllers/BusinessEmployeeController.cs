@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MFAPI.Common;
 using MFAPI.Model;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,36 +12,35 @@ namespace MFAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OffersController : ControllerBase
+    public class BusinessEmployeeController : ControllerBase
     {
         private readonly SqlDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public OffersController(SqlDbContext context, IWebHostEnvironment webHostEnvironment)
+        public BusinessEmployeeController(SqlDbContext context)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<Offers>>> Get()
+        public async Task<ActionResult<IEnumerable<BusinessEmployee>>> Get()
         {
-            return await _context.tblOffers.ToListAsync();
+            return await _context.tblBusinessEmployee.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("GetById/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<BusinessEmployee>>> GetById(int BusinessId)
+        {
+            return await _context.tblBusinessEmployee.Where(s => s.BusinessId == BusinessId).ToListAsync();
         }
         [HttpPost]
         [Route("Insert")]
-        public async Task<Response> Insert([FromForm] Offers model)
+        public async Task<Response> Insert([FromForm] BusinessEmployee model)
         {
             Response _objResponse = new Response();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    model.CreatedDate = DateTime.Now;
-                    model.UpdatedDate = DateTime.Now;
-                    if (model.ImageFile != null)
-                    {
-                        model.ImageName = await SaveImage(model.ImageFile);
-                    }
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -66,18 +63,18 @@ namespace MFAPI.Controllers
         }
         [HttpGet]
         [Route("Edit/{id}")]
-        public async Task<Offers> Edit(int id)
+        public async Task<BusinessEmployee> Edit(int id)
         {
-            return await _context.tblOffers.FindAsync(id);
+            return await _context.tblBusinessEmployee.FindAsync(id);
         }
         [HttpPut]
         [Route("Update/{id}")]
-        public async Task<Response> Update(int id, [FromForm] Offers model)
+        public async Task<Response> Update(int id, [FromForm] BusinessEmployee model)
         {
             Response _objResponse = new Response();
             try
             {
-                if (id != model.OfferId)
+                if (id != model.BusinessEmployeeId)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
@@ -106,15 +103,15 @@ namespace MFAPI.Controllers
             Response _objResponse = new Response();
             try
             {
-                var offers = await _context.tblOffers.FindAsync(id);
-                if (offers == null)
+                var employee = await _context.tblBusinessEmployee.FindAsync(id);
+                if (employee == null)
                 {
                     _objResponse.Status = "No record found";
                     _objResponse.Data = null;
                 }
                 else
                 {
-                    _context.tblOffers.Remove(offers);
+                    _context.tblBusinessEmployee.Remove(employee);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;
@@ -128,18 +125,6 @@ namespace MFAPI.Controllers
                 Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
             }
             return _objResponse;
-        }
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile ImageFile)
-        {
-            string ImageName = new string(Path.GetFileNameWithoutExtension(ImageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            ImageName = ImageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(ImageFile.FileName);
-            var ImagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "SalonImages", ImageName);
-            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
-            {
-                await ImageFile.CopyToAsync(fileStream);
-            }
-            return ImageName;
         }
     }
 }

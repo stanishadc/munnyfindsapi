@@ -10,14 +10,11 @@
         "projectUniqueName": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
         "projectName": "MFAPI",
         "projectPath": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\MFAPI.csproj",
-        "packagesPath": "C:\\Users\\stani\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Tanisha\\.nuget\\packages\\",
         "outputPath": "D:\\Developerscode\\Projects\\MunnyFinds_SalonProject\\MunnyFindsAPI\\MFAPI\\MFAPI\\MFAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\stani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Tanisha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/stanishadc/_packaging/stanishadc/nuget/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -75,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

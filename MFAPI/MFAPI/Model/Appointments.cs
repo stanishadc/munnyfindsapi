@@ -33,5 +33,7 @@ namespace MFAPI.Model
         public int Rating { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int BusinessEmployeeId { get; set; }
+        public BusinessEmployee BusinessEmployee { get; set; }
     }
 }

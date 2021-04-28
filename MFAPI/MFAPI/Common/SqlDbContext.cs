@@ -29,5 +29,8 @@ namespace MFAPI.Common
         public DbSet<Support> tblSupport { get; set; }
         public DbSet<AppointmentServices> tblAppointmentService { get; set; }
         public DbSet<BusinessOffline> tblBusinessOffline { get; set; }
+        public DbSet<Subscribe> tblSubscribe { get; set; }
+        public DbSet<BusinessEmployee> tblBusinessEmployee { get; set; }
+
     }
 }

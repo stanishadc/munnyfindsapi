@@ -30,7 +30,7 @@ namespace MFAPI.Controllers
         [HttpPost]
         public Response adminLogin([FromForm] Login login)
         {
-            var log = _context.tblUser.Where(x => x.Username.Equals(login.Username) && x.Password.Equals(login.Password) && x.RoleId.Equals(1)).FirstOrDefault();
+            var log = _context.tblUser.Where(x => x.Email.Equals(login.Email) && x.Password.Equals(login.Password) && x.RoleId.Equals(1)).FirstOrDefault();
             if (log == null)
             {
                 return new Response { Status = "Invalid", Data = "Invalid User." };
