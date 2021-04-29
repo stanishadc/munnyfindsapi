@@ -25,7 +25,7 @@ namespace MFAPI
         {
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://munnyfindsf.azurewebsites.net", "https://munnyfindsb.azurewebsites.net").AllowAnyMethod().AllowAnyHeader();
+                builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://munnyfrontend.azurewebsites.net", "https://munnybackend.azurewebsites.net").AllowAnyMethod().AllowAnyHeader();
             }));
             services.AddControllersWithViews();
             services.Configure<CookiePolicyOptions>(options =>
@@ -50,13 +50,13 @@ namespace MFAPI
             {
                 app.UseExceptionHandler("/Error");
             }
-            app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "SalonImages")),
-            //    RequestPath = "/SalonImages"
+            //app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "SalonImages")),
+                RequestPath = "/SalonImages"
 
-            //});
+            });
 
             app.UseRouting();
 
