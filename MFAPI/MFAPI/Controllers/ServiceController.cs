@@ -39,6 +39,12 @@ namespace MFAPI.Controllers
                }).ToListAsync();
         }
         [HttpGet]
+        [Route("GetByBusinessType/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetByBusinessType(int BusinessId)
+        {
+            return await _context.tblService.Where(c => c.BusinessId == BusinessId).ToListAsync();
+        }
+        [HttpGet]
         [Route("GetById/{BusinessId}")]
         public async Task<ActionResult<IEnumerable<Service>>> GetById(int BusinessId)
         {
