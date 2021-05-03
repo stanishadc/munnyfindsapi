@@ -22,9 +22,13 @@ namespace MFAPI.Controllers
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
-            //return await _context.tblCategory.ToListAsync();
-
             return await _context.tblCategory.Include(c => c.BusinessType).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetTopCategory")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetTopCategory()
+        {
+            return await _context.tblCategory.Take(5).ToListAsync();
         }
         [HttpGet]
         [Route("GetByType/{BusinessTypeId}")]

@@ -19,5 +19,9 @@ namespace MFAPI.Model
         public IFormFile ImageFile { get; set; }
         [NotMapped]
         public string ImageSrc { get; set; }
+        [NotMapped]
+        public string BusinessUrl { get; set; }
+        [NotMapped]
+        public string BusinessName { get; set; }
     }
 }

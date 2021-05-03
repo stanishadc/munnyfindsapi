@@ -1,9 +1,12 @@
 ﻿using MFAPI.Common;
 using MFAPI.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,16 +17,30 @@ namespace MFAPI.Controllers
     public class BusinessController : ControllerBase
     {
         private readonly SqlDbContext _context;
-        public BusinessController(SqlDbContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public BusinessController(SqlDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<IEnumerable<Business>>> Get()
         {
-            //return await _context.tblBusiness.ToListAsync();
              return await _context.tblBusiness.Include(c => c.BusinessType).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetTopBusiness")]
+        public async Task<ActionResult<IEnumerable<Business>>> GetTopBusiness()
+        {
+            return await _context.tblBusiness
+               .Select(x => new Business()
+               {
+                   BusinessId = x.BusinessId,
+                   BusinessName = x.BusinessName,
+                   BusinessUrl = x.BusinessUrl,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).Take(5).ToListAsync();
         }
         [HttpGet]
         [Route("GetById/{BusinessId}")]
@@ -38,10 +55,28 @@ namespace MFAPI.Controllers
             return await _context.tblBusiness.Where(s => s.BusinessUrl == Businessurl).ToListAsync();
         }
         [HttpGet]
-        [Route("GetByType/{BusinessTypeId}")]
-        public async Task<ActionResult<IEnumerable<Business>>> GetByType(int BusinessTypeId)
+        [Route("GetByType/{BusinessType}")]
+        public async Task<ActionResult<IEnumerable<Business>>> GetByType(string BusinessType)
         {
-            return await _context.tblBusiness.Where(s => s.BusinessType.BusinessTypeId == BusinessTypeId).ToListAsync();
+            return await _context.tblBusiness.Where(s => s.BusinessType.Business == BusinessType).ToListAsync();
+        }
+        [HttpGet]
+        [Route("GetListByType/{BusinessType}")]
+        public async Task<ActionResult<IEnumerable<Business>>> GetListByType(string BusinessType)
+        {
+            return await _context.tblBusiness
+              .Select(x => new Business()
+              {
+                  BusinessId = x.BusinessId,
+                  BusinessName = x.BusinessName,
+                  BusinessUrl = x.BusinessUrl,
+                  Rating=x.Rating,
+                  Location=x.Location,
+                  City=x.City,
+                  About=x.About,
+                  ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName),
+                  BusinessType=x.BusinessType
+              }).Where(s => s.BusinessType.Business == BusinessType).ToListAsync();
         }
         [HttpPost]
         [Route("businesslogin")]
@@ -85,6 +120,10 @@ namespace MFAPI.Controllers
                     model.CreatedDate = DateTime.Now;
                     model.UpdatedDate = DateTime.Now;
                     model.BusinessUrl = urlreplace(model.BusinessName);
+                    if (model.ImageFile != null)
+                    {
+                        model.ImageName = await SaveImage(model.ImageFile);
+                    }
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
@@ -127,6 +166,10 @@ namespace MFAPI.Controllers
                 {
                     model.UpdatedDate = DateTime.Now;
                     model.BusinessUrl = urlreplace(model.BusinessName);
+                    if (model.ImageFile != null)
+                    {
+                        model.ImageName = await SaveImage(model.ImageFile);
+                    }
                     _context.Entry(model).Property(x => x.CreatedDate).IsModified = false;
                     _context.Entry(model).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
@@ -176,6 +219,18 @@ namespace MFAPI.Controllers
         private string urlreplace(string name)
         {
             return name.Replace(" ", "-");
+        }
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile ImageFile)
+        {
+            string ImageName = new string(Path.GetFileNameWithoutExtension(ImageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            ImageName = ImageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(ImageFile.FileName);
+            var ImagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "SalonImages", ImageName);
+            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+            {
+                await ImageFile.CopyToAsync(fileStream);
+            }
+            return ImageName;
         }
     }
 }

@@ -62,7 +62,12 @@ namespace MFAPI.Controllers
             var databaseContext = _context.tblAppointment.Where(f => f.AppointmentDate >= DateTime.Now);
             return await databaseContext.ToListAsync();
         }
-
+        [HttpGet]
+        [Route("GetByBusinessId/{BusinessId}")]
+        public async Task<ActionResult<IEnumerable<Appointments>>> GetByBusinessId(int BusinessId)
+        {
+            return await _context.tblAppointment.Where(s => s.BusinessId == BusinessId).Include(c => c.Customer).ToListAsync();
+        }
         [HttpGet]
         [Route("GetById/{AppointmentId}")]
         public async Task<ActionResult<IEnumerable<Appointments>>> GetById(int AppointmentId)

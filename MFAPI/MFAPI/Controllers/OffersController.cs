@@ -29,6 +29,25 @@ namespace MFAPI.Controllers
         {
             return await _context.tblOffers.ToListAsync();
         }
+        [HttpGet]
+        [Route("GetOffers")]
+        public async Task<ActionResult<IEnumerable<Offers>>> GetOffers()
+        {
+            return await _context.tblOffers
+               .Select(x => new Offers()
+               {
+                   OfferId = x.OfferId,
+                   Title = x.Title,
+                   OfferCode = x.OfferCode,
+                   ImageName = x.ImageName,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   StartDate = x.StartDate,
+                   EndDate = x.EndDate,
+                   Status = x.Status,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).ToListAsync();
+        }
         [HttpPost]
         [Route("Insert")]
         public async Task<Response> Insert([FromForm] Offers model)
@@ -85,6 +104,10 @@ namespace MFAPI.Controllers
                 else
                 {
                     _context.Entry(model).State = EntityState.Modified;
+                    if (model.ImageFile != null)
+                    {
+                        model.ImageName = await SaveImage(model.ImageFile);
+                    }
                     await _context.SaveChangesAsync();
                     _objResponse.Status = "Success";
                     _objResponse.Data = null;

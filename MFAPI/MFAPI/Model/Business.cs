@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MFAPI.Model
 {
@@ -31,5 +33,10 @@ namespace MFAPI.Model
         public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public string ImageName { get; set; }
+        [NotMapped]
+        public string ImageSrc { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }
