@@ -46,19 +46,106 @@ namespace MFAPI.Controllers
         [Route("GetById/{BusinessId}")]
         public async Task<ActionResult<IEnumerable<Business>>> GetById(int BusinessId)
         {
-            return await _context.tblBusiness.Where(s=>s.BusinessId== BusinessId).ToListAsync();
+            return await _context.tblBusiness
+               .Select(x => new Business()
+               {
+                   BusinessId = x.BusinessId,
+                   BusinessName = x.BusinessName,
+                   BusinessUrl = x.BusinessUrl,
+                   BusinessTypeId = x.BusinessTypeId,
+                   ContactName = x.ContactName,
+                   Landline = x.Landline,
+                   MobileNo = x.MobileNo,
+                   Email = x.Email,
+                   Address = x.Address,
+                   GoogleMapURL = x.GoogleMapURL,
+                   Latitude = x.Latitude,
+                   Longitude = x.Longitude,
+                   Location = x.Location,
+                   ZipCode = x.ZipCode,
+                   City = x.City,
+                   Country = x.Country,
+                   Password = x.Password,
+                   About = x.About,
+                   Currency = x.Currency,
+                   TotalRatings = x.TotalRatings,
+                   Rating = x.Rating,
+                   ImageName = x.ImageName,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   Status = x.Status,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).Where(x => x.BusinessId == BusinessId).ToListAsync();
         }
         [HttpGet]
         [Route("GetByURL/{Businessurl}")]
         public async Task<ActionResult<IEnumerable<Business>>> GetByURL(string Businessurl)
         {
-            return await _context.tblBusiness.Where(s => s.BusinessUrl == Businessurl).ToListAsync();
+            return await _context.tblBusiness
+               .Select(x => new Business()
+               {
+                   BusinessId = x.BusinessId,
+                   BusinessName = x.BusinessName,
+                   BusinessUrl = x.BusinessUrl,
+                   BusinessTypeId = x.BusinessTypeId,
+                   ContactName = x.ContactName,
+                   Landline = x.Landline,
+                   MobileNo = x.MobileNo,
+                   Email = x.Email,
+                   Address = x.Address,
+                   GoogleMapURL = x.GoogleMapURL,
+                   Latitude = x.Latitude,
+                   Longitude = x.Longitude,
+                   Location = x.Location,
+                   ZipCode = x.ZipCode,
+                   City = x.City,
+                   Country = x.Country,
+                   Password = x.Password,
+                   About = x.About,
+                   Currency = x.Currency,
+                   TotalRatings = x.TotalRatings,
+                   Rating = x.Rating,
+                   ImageName = x.ImageName,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   Status = x.Status,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).Where(s => s.BusinessUrl == Businessurl).ToListAsync();
         }
         [HttpGet]
         [Route("GetByType/{BusinessType}")]
         public async Task<ActionResult<IEnumerable<Business>>> GetByType(string BusinessType)
         {
-            return await _context.tblBusiness.Where(s => s.BusinessType.Business == BusinessType).ToListAsync();
+            return await _context.tblBusiness
+               .Select(x => new Business()
+               {
+                   BusinessId = x.BusinessId,
+                   BusinessName = x.BusinessName,
+                   BusinessUrl = x.BusinessUrl,
+                   BusinessTypeId = x.BusinessTypeId,
+                   ContactName = x.ContactName,
+                   Landline = x.Landline,
+                   MobileNo = x.MobileNo,
+                   Email = x.Email,
+                   Address = x.Address,
+                   GoogleMapURL = x.GoogleMapURL,
+                   Latitude = x.Latitude,
+                   Longitude = x.Longitude,
+                   Location = x.Location,
+                   ZipCode = x.ZipCode,
+                   City = x.City,
+                   Country = x.Country,
+                   Password = x.Password,
+                   About = x.About,
+                   Currency = x.Currency,
+                   TotalRatings = x.TotalRatings,
+                   Rating = x.Rating,
+                   ImageName = x.ImageName,
+                   CreatedDate = x.CreatedDate,
+                   UpdatedDate = x.UpdatedDate,
+                   Status = x.Status,
+                   ImageSrc = String.Format("{0}://{1}{2}/SalonImages/{3}", Request.Scheme, Request.Host, Request.PathBase, x.ImageName)
+               }).Where(s => s.BusinessType.Business == BusinessType).ToListAsync();
         }
         [HttpGet]
         [Route("GetListByType/{BusinessType}")]
