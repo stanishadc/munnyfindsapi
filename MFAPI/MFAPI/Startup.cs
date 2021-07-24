@@ -51,12 +51,12 @@ namespace MFAPI
                 app.UseExceptionHandler("/Error");
             }
             //app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "SalonImages")),
-                RequestPath = "/SalonImages"
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "SalonImages")),
+            //    RequestPath = "/SalonImages"
 
-            });
+            //});
 
             app.UseRouting();
 
